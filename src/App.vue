@@ -1,28 +1,66 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view/>
+    <keep-alive>
+      <router-view v-if="$route.meta.keepAlive"></router-view>
+    </keep-alive>
+    <router-view v-if="!$route.meta.keepAlive"></router-view>
+    <router-view name="footer"></router-view>
   </div>
 </template>
 
 <style lang="scss">
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+@import "@/lib/reset.scss";
+
+html, body, #app, .detail,.cart {
+  @include rect (100%, 100%);
+  background-color: #f8f8f8;
 }
-#nav {
-  padding: 30px;
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-    &.router-link-exact-active {
-      color: #42b983;
+#app, .detail, .cart {
+  @include flexbox ();
+  @include flex-direction (column);
+  // @include font-size (12px);
+  .container {
+    @include flex ();
+    @include flexbox ();
+    @include flex-direction (column);
+    @include rect (100%, auto);
+
+    .header{
+      @include rect (100%, 0.4rem);
+      @include background-color (#f86464);
+    }
+
+    .content{
+      @include flex ();
+      @include rect (100%, auto);
+      @include overflow (auto);
+    }
+  }
+
+  .footer{
+    @include rect (100%, 0.5rem);
+    @include background-color (#efefef);
+    ul{
+      @include rect (100%, 100%);
+      @include flexbox ();
+      li{
+        @include flex ();
+        @include flexbox ();
+        @include flex-direction(column);
+        @include rect (auto, 100%);
+        @include align-items (center);
+        @include justify-content (center);
+        p{
+          @include font-size (12px);
+        }
+        i{
+          height: 25px;
+          @include font-size (24px);
+        }
+        &.router-link-active {
+          @include color (#f86464);
+        }
+      }
     }
   }
 }
